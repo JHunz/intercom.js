@@ -248,7 +248,7 @@ define(function() {
 				var data = localStorage.getItem(INDEX_EMIT);
 				var messages = JSON.parse(data || '[]');
 				for (var i = 0; i < messages.length; i++) {
-					if (messages[i].origin === self.origin) continue;
+					if (messages[i].origin === self.origin && !(messages[i].allowSelf === true)) continue;
 					if (messages[i].timestamp < self.lastMessage) continue;
 					if (messages[i].id) {
 						if (self.receivedIDs.hasOwnProperty(messages[i].id)) continue;
@@ -263,7 +263,7 @@ define(function() {
 		this._trigger('storage', event);
 	};
 	
-	Intercom.prototype._emit = function(name, message, id) {
+	Intercom.prototype._emit = function(name, message, allowSelf, id) {
 		id = (typeof id === 'string' || typeof id === 'number') ? String(id) : null;
 		if (id && id.length) {
 			if (this.receivedIDs.hasOwnProperty(id)) return;
@@ -275,7 +275,8 @@ define(function() {
 			name      : name,
 			origin    : this.origin,
 			timestamp : (new Date()).getTime(),
-			payload   : message
+			payload   : message,
+			allowSelf : allowSelf
 		};
 	
 		var self = this;
@@ -297,9 +298,9 @@ define(function() {
 		}
 	};
 	
-	Intercom.prototype.emit = function(name, message) {
+	Intercom.prototype.emit = function(name, message, allowSelf) {
 		this._emit.apply(this, arguments);
-		this._trigger('emit', name, message);
+		this._trigger('emit', name, message, allowSelf);
 	};
 	
 	Intercom.prototype.once = function(key, fn, ttl) {
