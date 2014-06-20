@@ -4,7 +4,7 @@ out=intercom.js
 out_min=intercom.min.js
 out_amd=intercom.amd.js
 out_amd_min=intercom.amd.min.js
-banner="/*! intercom.js | https://github.com/diy/intercom.js | Apache License (v2) */"
+banner="/*! intercom.js | https://github.com/diy/intercom.js | Apache License (v2) */\n/*! This version forked at https://github.com/JHunz/intercom.js */"
 
 append_file () {
 	src=`cat $2 | sed 's/^ *//g' | sed 's/ *$//g'`

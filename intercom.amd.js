@@ -1,4 +1,5 @@
 /*! intercom.js | https://github.com/diy/intercom.js | Apache License (v2) */
+/*! This version forked at https://github.com/JHunz/intercom.js */
 
 define(function() {	
 	
