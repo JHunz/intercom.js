@@ -286,7 +286,10 @@ var Intercom = (function() {
 			var delimiter = (data === '[]') ? '' : ',';
 			data = [data.substring(0, data.length - 1), delimiter, JSON.stringify(packet), ']'].join('');
 			localStorage.setItem(INDEX_EMIT, data);
-			self.trigger(name, message);
+	
+			if (packet.origin != self.origin || packet.allowSelf === true) {
+				self.trigger(name, message);
+			}
 	
 			window.setTimeout(function() { self._cleanup_emit(); }, 50);
 		});
